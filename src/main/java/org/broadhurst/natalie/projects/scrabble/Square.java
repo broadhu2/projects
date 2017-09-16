@@ -1,17 +1,31 @@
 package org.broadhurst.natalie.projects.scrabble;
 
-public class Square {
+public final class Square {
+	private int row;
+	private int col;
 	private Tile tile;
 	private Marker marker;
 	
-	public Square() {
+	public Square(int row, int col) {
+		this.row = row;
+		this.col = col;
 		this.tile = new Tile();
 		this.marker = Marker.NONE;
 	}
 	
-	public Square(Marker marker) {
+	public Square(int row, int col, Marker marker) {
+		this.row = row;
+		this.col = col;
 		this.tile = new Tile();
 		this.marker = marker;
+	}
+	
+	public int getRow() {
+		return row;
+	}
+	
+	public int getCol() {
+		return col;
 	}
 	
 	public boolean hasTile() {
@@ -38,4 +52,25 @@ public class Square {
 			return this.marker.toString();
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + row;
+		result = prime * result + col;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Square other = (Square) obj;
+		return (row == other.row && col == other.col);
+	}	
 }

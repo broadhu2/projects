@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Tile {
+public final class Tile {
 	private static final Map<Character, Integer> points = initialize();
 	private char letter;
 	private char display;
@@ -16,12 +16,13 @@ public class Tile {
 	}
 
 	public Tile(char letter) {
-		if (Character.isLetter(letter) || letter == '?') {
-			this.letter = Character.toUpperCase(letter);
-			this.display = Character.toUpperCase(letter);
-		} else {
-			throw new IllegalArgumentException("Error: '" + letter + "' is not a valid letter");
-		}
+		this.letter = Character.toUpperCase(letter);
+		this.display = Character.toUpperCase(letter);
+	}
+	
+	public Tile(char letter, char display) {
+		this.letter = Character.toUpperCase(letter);
+		this.display = Character.toUpperCase(display);
 	}
 	
 	public char getLetter() {
@@ -41,10 +42,10 @@ public class Tile {
 		this.display = Character.toUpperCase(display);
 	}
 	
-	public static List<Tile> getTilesForWord(String word) {
+	public static List<Tile> getTilesForLetters(CharSequence letters) {
 		List<Tile> tiles = new ArrayList<>();
-		for (int i = 0; i < word.length(); i++) {
-			tiles.add(new Tile(word.charAt(i)));
+		for (int i = 0; i < letters.length(); i++) {
+			tiles.add(new Tile(letters.charAt(i)));
 		}
 		return tiles;
 	}
