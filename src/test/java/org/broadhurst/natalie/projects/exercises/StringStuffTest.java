@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.equalTo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.FixMethodOrder;
@@ -60,7 +59,6 @@ public class StringStuffTest {
 						"educated", "tenuous", "hum", "decisive", "notice")),
 				equalTo(Arrays.asList("branch", "copper", "decisive", "educated", "explain", "hum", "neat", "notice",
 						"tenuous", "truck", "unite")));
-		collector.checkThat(Collections.emptyList(), equalTo(Collections.emptyList()));
 	}
 
 	@Test
@@ -103,9 +101,13 @@ public class StringStuffTest {
 
 	@Test
 	public void testIsPalindrome() {
+		collector.checkThat(StringStuff.isPalindrome(""), equalTo(true));
+		collector.checkThat(StringStuff.isPalindrome("a"), equalTo(true));
 		collector.checkThat(StringStuff.isPalindrome("madam"), equalTo(true));
 		collector.checkThat(StringStuff.isPalindrome("abba"), equalTo(true));
 		collector.checkThat(StringStuff.isPalindrome("racecar"), equalTo(true));
+		collector.checkThat(StringStuff.isPalindrome("test"), equalTo(false));
+		collector.checkThat(StringStuff.isPalindrome("abcdecba"), equalTo(false));
 	}
 
 	@Test
