@@ -1,6 +1,10 @@
 package org.broadhurst.natalie.projects.exercises;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class has a set of (static) methods related to string manipulation for
@@ -33,7 +37,6 @@ import java.util.List;
  *
  */
 public class StringStuff {
-
 	/**
 	 * Empty private constructor (you can ignore this)
 	 */
@@ -61,8 +64,23 @@ public class StringStuff {
 	 * @return the alternating caps string
 	 */
 	public static String alternatingCaps(final String string) {
-		// TODO: implement this method
-		return null;
+		StringBuilder alternating = new StringBuilder();
+		boolean caseType = false; // false for lower case, true for upper case
+		for (int i = 0; i < string.length(); i++) {
+			if (Character.isLetter(string.charAt(i))) {
+				// only alternate case for letter characters
+				if (caseType) {
+					alternating.append(Character.toUpperCase(string.charAt(i)));
+				} else {
+					alternating.append(Character.toLowerCase(string.charAt(i)));
+				}
+				caseType = !caseType;
+			} else {
+				// otherwise, just add the character as is
+				alternating.append(string.charAt(i));
+			}
+		}
+		return alternating.toString();
 	}
 
 	/**
@@ -80,8 +98,32 @@ public class StringStuff {
 	 * @return the compressed string (or the original string, if applicable).
 	 */
 	public static String compressString(final String string) {
-		// TODO: implement this method
-		return null;
+		// compressed string won't be shorter if there's less than 3 chars
+		if (string.length() < 3) {
+			return string;
+		}
+		int count = 1;
+		StringBuilder compressed = new StringBuilder();
+		char prev = string.charAt(0);
+		compressed.append(prev);
+		for (int i = 1; i < string.length(); i++) {
+			if (string.charAt(i) == prev) {
+				count++;
+			} else {
+				compressed.append(count);
+				prev = string.charAt(i);
+				compressed.append(prev);
+				count = 1;
+			}
+		}
+		// add the count for the final char
+		compressed.append(count);
+		// only return the compressed string if it is shorter than original
+		if (compressed.length() < string.length()) {
+			return compressed.toString();
+		} else {
+			return string;
+		}
 	}
 
 	/**
@@ -97,8 +139,9 @@ public class StringStuff {
 	 * @return a sorted copy of the list.
 	 */
 	public static List<String> copyAndSortList(final List<String> list) {
-		// TODO: implement this method
-		return null;
+		List<String> listCopy = new ArrayList<>(list);
+		Collections.sort(listCopy);
+		return listCopy;
 	}
 
 	/**
@@ -114,8 +157,15 @@ public class StringStuff {
 	 * @return the longest string in the list.
 	 */
 	public static String getLongestWord(final List<String> list) {
-		// TODO: implement this method
-		return null;
+		int maxLength = 0;
+		String longestWord = "";
+		for (String word : list) {
+			if (word.length() > maxLength) {
+				maxLength = word.length();
+				longestWord = word;
+			}
+		}
+		return longestWord;
 	}
 
 	/**
@@ -131,8 +181,15 @@ public class StringStuff {
 	 * @return the index of the longest string.
 	 */
 	public static int getLongestWordIndex(final List<String> list) {
-		// TODO: implement this method
-		return -1;
+		int maxLength = 0;
+		int longestIndex = 0;
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).length() > maxLength) {
+				maxLength = list.get(i).length();
+				longestIndex = i;
+			}
+		}
+		return longestIndex;
 	}
 
 	/**
@@ -147,8 +204,13 @@ public class StringStuff {
 	 * @return true if the string contains all unique characters; false otherwise.
 	 */
 	public static boolean hasUniqueCharacters(final String string) {
-		// TODO: implement this method
-		return false;
+		Set<Character> encountered = new HashSet<>();
+		for (int i = 0; i < string.length(); i++) {
+			if (!encountered.add(string.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -165,8 +227,14 @@ public class StringStuff {
 	 * @return true if the string is a palindrome; false otherwise.
 	 */
 	public static boolean isPalindrome(final String string) {
-		// TODO: implement this method
-		return false;
+		int length = string.length();
+		for (int indexFromLeft = 0; indexFromLeft < length / 2; indexFromLeft++) {
+			int indexFromRight = length - indexFromLeft - 1;
+			if (string.charAt(indexFromLeft) != string.charAt(indexFromRight)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -182,8 +250,7 @@ public class StringStuff {
 	 * @return the reversed string.
 	 */
 	public static String reverseString(final String string) {
-		// TODO: implement this method
-		return null;
+		return new StringBuilder(string).reverse().toString();
 	}
 
 	/**
@@ -193,7 +260,7 @@ public class StringStuff {
 	 * <p>
 	 * 1. Trim leading and trailing whitespace, e.g., " hello " becomes "hello".
 	 * <br>
-	 * 2. Reduce any occurrences of multiple spaces to one space, e.g. "hello   there"
+	 * 2. Reduce any occurrences of multiple spaces to one space, e.g. "hello there"
 	 * becomes "hello there". </br>
 	 * 3. Capitalize the first letter of each word and convert other letters to
 	 * lower case. e.g., "test STRING" becomes "Test String". <br>
@@ -204,7 +271,7 @@ public class StringStuff {
 	 * class.
 	 * 
 	 * <p>
-	 * Hint: For an efficient way to perform the last two rules, you can split the string
+	 * Hint: For a quick way to perform last two rules, you can split the string
 	 * into words by using <code>string.split("\\s+")</code>. The parameter
 	 * <code>"\\s+"</code> is a regular expression that searches for one or more
 	 * whitespace characters as the delimiter.
@@ -217,8 +284,26 @@ public class StringStuff {
 	 * @return the scrubbed string.
 	 */
 	public static String scrubString(final String string) {
-		// TODO: implement this method
-		return null;
+		if (string.isEmpty() || string.trim().isEmpty()) {
+			return "";
+		}
+		StringBuilder scrubbed = new StringBuilder();
+		String copy = string.trim();
+		String[] words = copy.split("\\s+");
+		for (int i = 0; i < words.length; i++) {
+			String word = words[i];
+			scrubbed.append(Character.toUpperCase(word.charAt(0)));
+			if (word.length() > 1) {
+				// the word has more than one letter, so it's safe to access later indices
+				for (int j = 1; j < word.length(); j++) {
+					scrubbed.append(Character.toLowerCase(word.charAt(j)));
+				}
+			}
+			// only add a space if it's not the last word
+			if (i < words.length - 1) {
+				scrubbed.append(' ');
+			}
+		}
+		return scrubbed.toString();
 	}
-
 }
